@@ -24,6 +24,25 @@
   justify-content: center;
   padding: 2rem;
   min-height: 80vh;
+  position: relative;
+}
+
+.start-screen__lang {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-card);
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: background 0.2s;
+}
+
+.start-screen__lang:hover {
+  background: var(--bg-card);
 }
 
 .start-screen__title {

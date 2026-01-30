@@ -4,6 +4,7 @@ import { Board } from "./Board";
 import { gameReducer, initGameState } from "../hooks/useGameReducer";
 import { useMatchAnimation } from "../hooks/useMatchAnimation";
 import { useSoundEffect } from "../hooks/useSoundEffect";
+import { useLocale } from "../hooks/useLocale";
 
 interface GameProps {
   onGameEnd: (result: GameResult) => void;
@@ -18,6 +19,7 @@ export function Game({ onGameEnd }: GameProps) {
   const lastMatchIdRef = useRef<string | null>(null);
 
   const { playMatchSound, playFailSound } = useSoundEffect();
+  const { t } = useLocale();
 
   useMatchAnimation(matchQueue, dispatch);
 
@@ -74,10 +76,10 @@ export function Game({ onGameEnd }: GameProps) {
   return (
     <div className="game">
       <div className="game__header">
-        <div className="game__time">⏱️ {formatTime(elapsedTime)}</div>
-        <div className="game__combo">🔥 {combo} コンボ</div>
+        <div className="game__time">{formatTime(elapsedTime)}</div>
+        <div className="game__combo">{combo} {t.combo}</div>
         <div className="game__progress">
-          {matchedPairs} / {totalPairs} ペア
+          {matchedPairs} / {totalPairs}
         </div>
       </div>
       <Board slots={slots} onSelect={handleSelect} />

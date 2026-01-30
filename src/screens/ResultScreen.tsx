@@ -1,4 +1,5 @@
 import type { GameResult } from "../types/game";
+import { useLocale } from "../hooks/useLocale";
 
 interface ResultScreenProps {
   result: GameResult;
@@ -6,9 +7,9 @@ interface ResultScreenProps {
 }
 
 export function ResultScreen({ result, onRestart }: ResultScreenProps) {
+  const { t } = useLocale();
   const { clearTimeMs, maxCombo, totalPairs } = result;
 
-  // 時間フォーマット
   const formatTime = (ms: number) => {
     const seconds = Math.floor(ms / 1000);
     const minutes = Math.floor(seconds / 60);
@@ -19,13 +20,12 @@ export function ResultScreen({ result, onRestart }: ResultScreenProps) {
       .padStart(2, "0")}`;
   };
 
-  // X（Twitter）投稿用テキスト
-  const shareText = `🎴 構文マッチ クリア！
-⏱️ タイム: ${formatTime(clearTimeMs)}
-🔥 最大コンボ: ${maxCombo}
-📝 ${totalPairs}ペア完全制覇！
+  const shareText = `${t.shareTitle}
+${t.shareTime}: ${formatTime(clearTimeMs)}
+${t.shareMaxCombo}: ${maxCombo}
+${totalPairs} ${t.sharePairsComplete}
 
-#構文マッチ #JavaScript`;
+${t.shareHashtags}`;
 
   const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
     shareText
@@ -33,23 +33,23 @@ export function ResultScreen({ result, onRestart }: ResultScreenProps) {
 
   return (
     <div className="result-screen">
-      <h1 className="result-screen__title">🎉 クリア！</h1>
+      <h1 className="result-screen__title">{t.cleared}</h1>
 
       <div className="result-screen__stats">
         <div className="result-screen__stat">
-          <span className="result-screen__stat-label">⏱️ クリアタイム</span>
+          <span className="result-screen__stat-label">{t.clearTime}</span>
           <span className="result-screen__stat-value">
             {formatTime(clearTimeMs)}
           </span>
         </div>
 
         <div className="result-screen__stat">
-          <span className="result-screen__stat-label">🔥 最大コンボ</span>
+          <span className="result-screen__stat-label">{t.maxCombo}</span>
           <span className="result-screen__stat-value">{maxCombo}</span>
         </div>
 
         <div className="result-screen__stat">
-          <span className="result-screen__stat-label">📝 マッチ数</span>
+          <span className="result-screen__stat-label">{t.matches}</span>
           <span className="result-screen__stat-value">
             {totalPairs} / {totalPairs}
           </span>
@@ -63,11 +63,11 @@ export function ResultScreen({ result, onRestart }: ResultScreenProps) {
           rel="noopener noreferrer"
           className="result-screen__share-button"
         >
-          𝕏 結果をシェア
+          {t.shareResult}
         </a>
 
         <button className="result-screen__restart-button" onClick={onRestart}>
-          もう一度プレイ 🔄
+          {t.playAgain}
         </button>
       </div>
     </div>
