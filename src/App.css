@@ -1,0 +1,327 @@
+/* ============================================
+   アニメーション時間は CSS Variables で JS から注入
+   ============================================ */
+
+/* ============================================
+   アプリ全体
+   ============================================ */
+.app {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+  min-height: 100vh;
+}
+
+/* ============================================
+   スタート画面
+   ============================================ */
+.start-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.start-screen__title {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.start-screen__subtitle {
+  color: #888;
+  margin-bottom: 2rem;
+}
+
+.start-screen__rules {
+  background: #1a1a2e;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  max-width: 500px;
+  text-align: left;
+}
+
+.start-screen__rules h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.start-screen__rules ul {
+  padding-left: 1.5rem;
+}
+
+.start-screen__rules li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.start-screen__example {
+  background: #1a1a2e;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 500px;
+}
+
+.start-screen__example h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.start-screen__example-cards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.start-screen__example-cards code {
+  background: #2d2d44;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.start-screen__button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.start-screen__button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* ============================================
+   ゲーム画面
+   ============================================ */
+.game {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.game__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #1a1a2e;
+  border-radius: 12px;
+  font-size: 1.1rem;
+}
+
+.game__time {
+  font-variant-numeric: tabular-nums;
+}
+
+.game__combo {
+  color: #ff6b6b;
+  font-weight: bold;
+}
+
+.game__progress {
+  color: #4ecdc4;
+}
+
+/* ============================================
+   ボード
+   ============================================ */
+.board {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.board__column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+  max-width: 400px;
+}
+
+/* ============================================
+   スロット
+   ============================================ */
+.slot {
+  min-height: 80px;
+  border-radius: 12px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.slot--empty {
+  background: #1a1a2e;
+  border: 2px dashed #333;
+}
+
+.slot--idle {
+  cursor: pointer;
+}
+
+.slot--idle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.slot--selected {
+  transform: scale(1.02);
+  box-shadow: 0 0 0 3px #667eea, 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.slot--leaving {
+  animation: slot-leave var(--leave-duration, 300ms) ease-out forwards;
+}
+
+.slot--entering {
+  animation: slot-enter var(--enter-duration, 300ms) ease-out forwards;
+}
+
+@keyframes slot-leave {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes slot-enter {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.slot__card {
+  background: linear-gradient(145deg, #2d2d44 0%, #1a1a2e 100%);
+  border: 1px solid #3d3d5c;
+  border-radius: 12px;
+  padding: 1rem;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slot__text {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  word-break: break-all;
+  text-align: center;
+  color: #e0e0e0;
+}
+
+/* ============================================
+   結果画面
+   ============================================ */
+.result-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.result-screen__title {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  animation: celebrate 0.6s ease-out;
+}
+
+@keyframes celebrate {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.result-screen__stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.result-screen__stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1a1a2e;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+}
+
+.result-screen__stat-label {
+  color: #888;
+}
+
+.result-screen__stat-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+}
+
+.result-screen__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 300px;
+}
+
+.result-screen__share-button {
+  background: #000;
+  color: white;
+  border: 1px solid #333;
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.result-screen__share-button:hover {
+  background: #1a1a1a;
+}
+
+.result-screen__restart-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 1rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.result-screen__restart-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
