@@ -13,7 +13,7 @@ export type GameAction =
   | { type: "END_GAME" };
 
 // 選択中のスロットを取得するヘルパー関数
-export function getSelectedSlots(slots: Slot[]): Slot[] {
+function getSelectedSlots(slots: Slot[]): Slot[] {
   return slots.filter(s => s.status === "selected" && s.card);
 }
 
@@ -42,7 +42,7 @@ export function initGameState(): GameState {
     maxCombo: 0,
     matchedPairs: 0,
     pairQueue: queue.slice(5),
-    matchResult: null,
+    matchQueue: [],
     gameEnded: false,
     startTime: Date.now(),
     totalPairs: PROBLEMS.length,
@@ -50,7 +50,7 @@ export function initGameState(): GameState {
 }
 
 // スロットの初期化（左右×5行 = 10スロット）
-export function createInitialSlots(): Slot[] {
+function createInitialSlots(): Slot[] {
   const slots: Slot[] = [];
   for (let row = 0; row < 5; row++) {
     slots.push({ side: "left", row, status: "idle" });
@@ -97,8 +97,9 @@ function handleSelectSlot(
   side: Side,
   row: number
 ): GameState {
-  // 処理中は選択不可
-  if (state.matchResult) return state;
+  // fail処理中は選択不可
+  const currentMatch = state.matchQueue[0];
+  if (currentMatch?.type === "fail") return state;
 
   const slot = state.slots.find(s => s.side === side && s.row === row);
   if (!slot || !slot.card) return state;
@@ -190,21 +191,22 @@ function applyMatchResult(
       ),
       combo: newCombo,
       maxCombo: Math.max(state.maxCombo, newCombo),
-      matchResult: { type: "success", positions },
+      matchQueue: [...state.matchQueue, { type: "success", positions }],
     };
   } else {
     return {
       ...state,
       slots: newSlots,
       combo: 0,
-      matchResult: { type: "fail", positions },
+      matchQueue: [...state.matchQueue, { type: "fail", positions }],
     };
   }
 }
 
 /** スロット選択解除のハンドラ */
 function handleDeselectSlot(state: GameState, side: Side, row: number): GameState {
-  if (state.matchResult) return state;
+  const currentMatch = state.matchQueue[0];
+  if (currentMatch?.type === "fail") return state;
   return {
     ...state,
     slots: state.slots.map(s =>
@@ -240,7 +242,7 @@ function handleClearMatchResult(state: GameState): GameState {
     slots: state.slots.map(s =>
       s.status === "selected" ? { ...s, status: "idle" as const } : s
     ),
-    matchResult: null,
+    matchQueue: state.matchQueue.slice(1),
   };
 }
 
@@ -302,7 +304,7 @@ function handleClearEntering(state: GameState): GameState {
     slots: state.slots.map(s =>
       s.status === "entering" ? { ...s, status: "idle" as const } : s
     ),
-    matchResult: null,
+    matchQueue: state.matchQueue.slice(1),
   };
 }
 

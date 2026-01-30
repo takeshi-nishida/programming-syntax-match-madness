@@ -48,7 +48,7 @@ export interface GameState {
   maxCombo: number;
   matchedPairs: number;
   pairQueue: CardPair[];
-  matchResult: MatchResult | null;
+  matchQueue: MatchResult[];  // マッチ結果のキュー（順次処理）
   gameEnded: boolean;
   startTime: number;
   totalPairs: number;

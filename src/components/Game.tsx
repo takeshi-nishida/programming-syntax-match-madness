@@ -10,12 +10,12 @@ interface GameProps {
 
 export function Game({ onGameEnd }: GameProps) {
   const [state, dispatch] = useReducer(gameReducer, null, initGameState);
-  const { slots, combo, maxCombo, matchedPairs, matchResult, gameEnded, startTime, totalPairs } = state;
+  const { slots, combo, maxCombo, matchedPairs, matchQueue, gameEnded, startTime, totalPairs } = state;
   const [elapsedTime, setElapsedTime] = useState(0);
 
   const gameEndedRef = useRef(false);
 
-  useMatchAnimation(matchResult, dispatch);
+  useMatchAnimation(matchQueue, dispatch);
 
   useEffect(() => {
     if (gameEnded && !gameEndedRef.current) {

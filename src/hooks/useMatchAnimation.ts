@@ -5,24 +5,30 @@ import type { GameAction } from "./useGameReducer";
 import { LEAVE_DURATION, REFILL_DELAY, WRONG_DELAY, ENTER_DURATION } from "../constants";
 
 /**
- * マッチ結果に応じたアニメーションシーケンスを管理するカスタムフック
+ * マッチ結果キューの先頭を監視し、アニメーションシーケンスを管理するカスタムフック
  * 
  * success: leaving → clear → refill → entering
  * fail: shake → clear selection
  */
 export function useMatchAnimation(
-  matchResult: MatchResult | null,
+  matchQueue: MatchResult[],
   dispatch: Dispatch<GameAction>
 ): void {
-  // タイマーIDを保持するref（クリーンアップ用）
+  // 現在処理中のマッチ結果IDを追跡（重複処理防止）
+  const processingRef = useRef<string | null>(null);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-  useEffect(() => {
-    if (!matchResult) return;
+  const currentMatch = matchQueue[0];
+  // マッチ結果のID（positionsを文字列化）
+  const matchId = currentMatch 
+    ? `${currentMatch.type}-${currentMatch.positions.map(p => `${p.side}${p.row}`).join("-")}`
+    : null;
 
-    // 新しいアニメーション開始時に既存タイマーをクリア
-    timersRef.current.forEach(timer => clearTimeout(timer));
-    timersRef.current = [];
+  useEffect(() => {
+    // 処理するものがない、または既に処理中
+    if (!currentMatch || !matchId || processingRef.current === matchId) return;
+
+    processingRef.current = matchId;
 
     const addTimer = (callback: () => void, delay: number) => {
       const timer = setTimeout(callback, delay);
@@ -30,16 +36,17 @@ export function useMatchAnimation(
       return timer;
     };
 
-    if (matchResult.type === "success") {
+    if (currentMatch.type === "success") {
       // 正解アニメーションシーケンス
       addTimer(() => {
-        dispatch({ type: "CLEAR_MATCHED", positions: matchResult.positions });
+        dispatch({ type: "CLEAR_MATCHED", positions: currentMatch.positions });
 
         addTimer(() => {
           dispatch({ type: "REFILL_SLOTS" });
 
           addTimer(() => {
             dispatch({ type: "CLEAR_ENTERING" });
+            processingRef.current = null;
           }, ENTER_DURATION);
         }, REFILL_DELAY);
       }, LEAVE_DURATION);
@@ -47,13 +54,14 @@ export function useMatchAnimation(
       // 不正解アニメーション
       addTimer(() => {
         dispatch({ type: "CLEAR_MATCH_RESULT" });
+        processingRef.current = null;
       }, WRONG_DELAY);
     }
 
-    // クリーンアップ
+    // クリーンアップはコンポーネントのアンマウント時のみ
     return () => {
       timersRef.current.forEach(timer => clearTimeout(timer));
       timersRef.current = [];
     };
-  }, [matchResult, dispatch]);
+  }, [matchId, currentMatch, dispatch]);
 }
