@@ -1,7 +1,7 @@
 export const ja = {
   // StartScreen
-  title: "構文マッチ",
-  subtitle: "JavaScript 構文ペアマッチングゲーム",
+  title: "Reflex",
+  subtitle: "プログラミング構文無限カルタ",
   howToPlay: "遊び方",
   rule1: "左右のカードから同じ意味のペアを選ぼう",
   rule2: "左から1枚、右から1枚を選択",
@@ -24,11 +24,12 @@ export const ja = {
   playAgain: "もう一度",
 
   // Share text
-  shareTitle: "構文マッチ クリア！",
+  shareTitle: "Reflex クリア！",
   shareTime: "タイム",
   shareMaxCombo: "最大コンボ",
   sharePairsComplete: "ペア完全制覇！",
-  shareHashtags: "#構文マッチ #JavaScript",
+  shareHashtags: "#Reflex #JavaScript",
+  shareUrl: "https://takeshi-nishida.github.io/programming-syntax-match-madness/",
 
   // Language switcher
   language: "EN",

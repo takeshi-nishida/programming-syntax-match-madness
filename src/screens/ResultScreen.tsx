@@ -25,9 +25,11 @@ ${t.shareTime}: ${formatTime(clearTimeMs)}
 ${t.shareMaxCombo}: ${maxCombo}
 ${totalPairs} ${t.sharePairsComplete}
 
+${t.shareUrl}
+
 ${t.shareHashtags}`;
 
-  const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+  const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
     shareText
   )}`;
 
@@ -58,7 +60,7 @@ ${t.shareHashtags}`;
 
       <div className="result-screen__actions">
         <a
-          href={shareUrl}
+          href={tweetUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="result-screen__share-button"

@@ -1,7 +1,7 @@
 export const en = {
   // StartScreen
-  title: "Syntax Match",
-  subtitle: "JavaScript Syntax Pair Matching Game",
+  title: "Reflex",
+  subtitle: "Programming Syntax Match Madness",
   howToPlay: "How to Play",
   rule1: "Find pairs with the same meaning from left and right cards",
   rule2: "Select one card from each side",
@@ -24,11 +24,12 @@ export const en = {
   playAgain: "Play Again",
 
   // Share text
-  shareTitle: "Syntax Match Cleared!",
+  shareTitle: "Reflex Cleared!",
   shareTime: "Time",
   shareMaxCombo: "Max Combo",
   sharePairsComplete: "pairs complete!",
-  shareHashtags: "#SyntaxMatch #JavaScript",
+  shareHashtags: "#Reflex #JavaScript",
+  shareUrl: "https://takeshi-nishida.github.io/programming-syntax-match-madness/",
 
   // Language switcher
   language: "日本語",
