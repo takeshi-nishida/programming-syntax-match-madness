@@ -6,10 +6,12 @@
    アプリ全体
    ============================================ */
 .app {
+  width: 100%;
   max-width: 900px;
   margin: 0 auto;
   padding: 1rem;
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
 /* ============================================
@@ -19,27 +21,32 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 2rem;
+  min-height: 80vh;
 }
 
 .start-screen__title {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
+  text-align: center;
 }
 
 .start-screen__subtitle {
-  color: #888;
+  color: var(--text-secondary);
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 .start-screen__rules {
-  background: #1a1a2e;
+  background: var(--bg-secondary);
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
   width: 100%;
   max-width: 500px;
   text-align: left;
+  border: 1px solid var(--border-card);
 }
 
 .start-screen__rules h2 {
@@ -57,12 +64,13 @@
 }
 
 .start-screen__example {
-  background: #1a1a2e;
+  background: var(--bg-secondary);
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 2rem;
   width: 100%;
   max-width: 500px;
+  border: 1px solid var(--border-card);
 }
 
 .start-screen__example h2 {
@@ -79,14 +87,15 @@
 }
 
 .start-screen__example-cards code {
-  background: #2d2d44;
+  background: var(--bg-primary);
   padding: 0.5rem 1rem;
   border-radius: 8px;
   font-size: 0.85rem;
+  border: 1px solid var(--border-card);
 }
 
 .start-screen__button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-secondary) 100%);
   color: white;
   border: none;
   padding: 1rem 2.5rem;
@@ -98,7 +107,7 @@
 
 .start-screen__button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8px 20px var(--accent-glow);
 }
 
 /* ============================================
@@ -107,17 +116,23 @@
 .game {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1rem;
+  width: 100%;
 }
 
 .game__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background: #1a1a2e;
+  padding: 1rem 1.5rem;
+  background: var(--bg-secondary);
   border-radius: 12px;
   font-size: 1.1rem;
+  width: 100%;
+  max-width: 900px;
+  box-sizing: border-box;
+  border: 1px solid var(--border-card);
 }
 
 .game__time {
@@ -125,43 +140,47 @@
 }
 
 .game__combo {
-  color: #ff6b6b;
+  color: var(--danger);
   font-weight: bold;
 }
 
 .game__progress {
-  color: #4ecdc4;
+  color: var(--success);
 }
 
 /* ============================================
    ボード
    ============================================ */
 .board {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 900px;
 }
 
 .board__column {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  flex: 1;
-  max-width: 400px;
+  gap: 1rem;
+  min-width: 0;
 }
 
 /* ============================================
    スロット
    ============================================ */
 .slot {
-  min-height: 80px;
+  height: 100px;
+  width: 100%;
   border-radius: 12px;
-  transition: transform 0.15s, box-shadow 0.15s;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+  box-sizing: border-box;
 }
 
 .slot--empty {
-  background: #1a1a2e;
-  border: 2px dashed #333;
+  background: var(--bg-secondary);
+  border: 2px dashed var(--border-empty);
+  height: 100px;
 }
 
 .slot--idle {
@@ -170,12 +189,18 @@
 
 .slot--idle:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .slot--selected {
-  transform: scale(1.02);
-  box-shadow: 0 0 0 3px #667eea, 0 4px 12px rgba(102, 126, 234, 0.4);
+  transform: scale(1.03);
+  box-shadow: 0 0 0 4px var(--accent), 0 8px 24px var(--accent-glow);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.slot--selected .slot__card {
+  background: var(--bg-card-selected);
+  border-color: var(--accent);
 }
 
 .slot--leaving {
@@ -184,6 +209,15 @@
 
 .slot--entering {
   animation: slot-enter var(--enter-duration, 300ms) ease-out forwards;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 4px var(--accent), 0 8px 24px var(--accent-glow);
+  }
+  50% {
+    box-shadow: 0 0 0 6px var(--accent), 0 8px 32px var(--accent-glow);
+  }
 }
 
 @keyframes slot-leave {
@@ -208,23 +242,37 @@
   }
 }
 
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
 .slot__card {
-  background: linear-gradient(145deg, #2d2d44 0%, #1a1a2e 100%);
-  border: 1px solid #3d3d5c;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
   border-radius: 12px;
   padding: 1rem;
-  min-height: 80px;
+  height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  transition: background 0.15s, border-color 0.15s;
 }
 
 .slot__text {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   line-height: 1.4;
-  word-break: break-all;
+  overflow-wrap: break-word;
+  word-break: keep-all;
   text-align: center;
-  color: #e0e0e0;
+  color: var(--text-code);
+  max-width: 100%;
+  overflow: hidden;
 }
 
 /* ============================================
@@ -234,7 +282,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 2rem;
+  min-height: 80vh;
 }
 
 .result-screen__title {
@@ -270,13 +320,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #1a1a2e;
+  background: var(--bg-secondary);
   padding: 1rem 1.5rem;
   border-radius: 12px;
+  border: 1px solid var(--border-card);
 }
 
 .result-screen__stat-label {
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .result-screen__stat-value {
@@ -294,24 +345,24 @@
 }
 
 .result-screen__share-button {
-  background: #000;
-  color: white;
-  border: 1px solid #333;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-card);
   padding: 1rem;
   font-size: 1rem;
   border-radius: 12px;
   cursor: pointer;
   text-decoration: none;
   text-align: center;
-  transition: background 0.2s;
+  transition: background 0.2s, border-color 0.2s;
 }
 
 .result-screen__share-button:hover {
-  background: #1a1a1a;
+  border-color: var(--accent);
 }
 
 .result-screen__restart-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-secondary) 100%);
   color: white;
   border: none;
   padding: 1rem;
@@ -323,5 +374,47 @@
 
 .result-screen__restart-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8px 20px var(--accent-glow);
+}
+
+/* ============================================
+   レスポンシブ
+   ============================================ */
+@media (max-width: 600px) {
+  .app {
+    padding: 0.5rem;
+  }
+
+  .start-screen__title {
+    font-size: 1.8rem;
+  }
+
+  .game__header {
+    font-size: 0.9rem;
+    padding: 0.75rem;
+  }
+
+  .board {
+    gap: 0.5rem;
+  }
+
+  .board__column {
+    gap: 0.5rem;
+  }
+
+  .slot {
+    height: 85px;
+  }
+
+  .slot--empty {
+    height: 85px;
+  }
+
+  .slot__text {
+    font-size: 0.7rem;
+  }
+
+  .result-screen__title {
+    font-size: 2rem;
+  }
 }
