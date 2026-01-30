@@ -15,6 +15,12 @@ export interface CardInstance {
   problemData: ProblemData;
 }
 
+// スロット位置
+export interface SlotPosition {
+  side: Side;
+  row: number;
+}
+
 // スロット（左右×5行の各マス）
 export interface Slot {
   side: Side;
@@ -29,15 +35,21 @@ export interface CardPair {
   right: CardInstance;
 }
 
+// マッチ結果（アニメーション処理用）
+export interface MatchResult {
+  type: "success" | "fail";
+  positions: [SlotPosition, SlotPosition];
+}
+
 // ゲームの状態
 export interface GameState {
   slots: Slot[];
-  selected: Slot[];
   combo: number;
   maxCombo: number;
   matchedPairs: number;
   pairQueue: CardPair[];
-  isProcessing: boolean;
+  matchResult: MatchResult | null;
+  gameEnded: boolean;
   startTime: number;
   totalPairs: number;
 }
