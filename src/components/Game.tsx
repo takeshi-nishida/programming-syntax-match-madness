@@ -3,6 +3,7 @@ import type { Slot, GameResult } from "../types/game";
 import { Board } from "./Board";
 import { gameReducer, initGameState } from "../hooks/useGameReducer";
 import { useMatchAnimation } from "../hooks/useMatchAnimation";
+import { useSoundEffect } from "../hooks/useSoundEffect";
 
 interface GameProps {
   onGameEnd: (result: GameResult) => void;
@@ -14,8 +15,30 @@ export function Game({ onGameEnd }: GameProps) {
   const [elapsedTime, setElapsedTime] = useState(0);
 
   const gameEndedRef = useRef(false);
+  const lastMatchIdRef = useRef<string | null>(null);
+
+  const { playMatchSound, playFailSound } = useSoundEffect();
 
   useMatchAnimation(matchQueue, dispatch);
+
+  // マッチ結果に応じてサウンドを再生
+  useEffect(() => {
+    const currentMatch = matchQueue[0];
+    if (!currentMatch) {
+      lastMatchIdRef.current = null;
+      return;
+    }
+
+    const matchId = `${currentMatch.type}-${currentMatch.positions.map(p => `${p.side}${p.row}`).join("-")}`;
+    if (lastMatchIdRef.current === matchId) return;
+
+    lastMatchIdRef.current = matchId;
+    if (currentMatch.type === "success") {
+      playMatchSound(combo);
+    } else {
+      playFailSound();
+    }
+  }, [matchQueue, combo, playMatchSound, playFailSound]);
 
   useEffect(() => {
     if (gameEnded && !gameEndedRef.current) {
