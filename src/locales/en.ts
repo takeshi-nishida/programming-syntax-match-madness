@@ -1,7 +1,7 @@
 export const en = {
   // StartScreen
   title: "Reflex",
-  subtitle: "Programming Syntax Matching Game",
+  subtitle: "Programming Syntax Match Madness",
   howToPlay: "How to Play",
   rule1: "Find pairs with the same meaning from left and right cards",
   rule2: "Select one card from each side",
@@ -29,11 +29,15 @@ export const en = {
   clearTime: "Clear Time",
   maxCombo: "Max Combo",
   matches: "Matches",
+  showScoreCard: "Score Card",
   shareResult: "𝕏 Share Result",
-  playAgain: "Play Again",
+  backToCourses: "Back to Courses",
+  scoreCardHint: "Right-click to save or copy",
+  close: "Close",
 
   // Share text
   shareTitle: "Reflex Cleared!",
+  shareCourse: "Course",
   shareTime: "Time",
   shareMaxCombo: "Max Combo",
   sharePairsComplete: "pairs complete!",

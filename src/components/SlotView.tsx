@@ -1,12 +1,14 @@
 import type { Slot } from "../types/game";
 import { LEAVE_DURATION, ENTER_DURATION } from "../constants";
+import { CodeHighlight } from "./CodeHighlight";
 
 interface SlotViewProps {
   slot: Slot;
   onSelect: (slot: Slot) => void;
+  isDark?: boolean;
 }
 
-export function SlotView({ slot, onSelect }: SlotViewProps) {
+export function SlotView({ slot, onSelect, isDark = true }: SlotViewProps) {
   const { card, status } = slot;
 
   // CSS Variables でアニメーション時間を注入
@@ -33,7 +35,9 @@ export function SlotView({ slot, onSelect }: SlotViewProps) {
       onClick={handleClick}
     >
       <div className="slot__card">
-        <code className="slot__text">{card.problemData.text}</code>
+        <div className="slot__text">
+          <CodeHighlight code={card.problemData.text} isDark={isDark} />
+        </div>
       </div>
     </div>
   );

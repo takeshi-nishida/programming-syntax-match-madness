@@ -1,6 +1,11 @@
 import type { Problem } from "../../types/game";
 
-// Level 2: DOM操作、イベント、コールバック
+/**
+ * Level 2: DOM操作、イベント、コールバック
+ *
+ * 規約: pair[0] = モダン/簡潔な書き方（左に表示）
+ *       pair[1] = 従来/冗長な書き方（右に表示）
+ */
 export const domProblems: Problem[] = [
   {
     id: "get-by-id",

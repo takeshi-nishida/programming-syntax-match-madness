@@ -62,29 +62,23 @@ function createInitialSlots(): Slot[] {
 }
 
 // 問題からペアキューを生成（シャッフル済み）
+// 規約: pair[0] = モダン（左）, pair[1] = 従来（右）で固定
 export function createPairQueue(problems: Problem[]): CardPair[] {
   let instanceCounter = 0;
   const shuffledProblems = shuffle(problems);
 
-  const pairs: CardPair[] = shuffledProblems.map((problem) => {
-    const [leftData, rightData] =
-      Math.random() < 0.5
-        ? [problem.pair[0], problem.pair[1]]
-        : [problem.pair[1], problem.pair[0]];
-
-    return {
-      left: {
-        instanceId: `card-${instanceCounter++}`,
-        problemId: problem.id,
-        problemData: leftData,
-      },
-      right: {
-        instanceId: `card-${instanceCounter++}`,
-        problemId: problem.id,
-        problemData: rightData,
-      },
-    };
-  });
+  const pairs: CardPair[] = shuffledProblems.map((problem) => ({
+    left: {
+      instanceId: `card-${instanceCounter++}`,
+      problemId: problem.id,
+      problemData: problem.pair[0], // モダン/簡潔な書き方
+    },
+    right: {
+      instanceId: `card-${instanceCounter++}`,
+      problemId: problem.id,
+      problemData: problem.pair[1], // 従来/冗長な書き方
+    },
+  }));
 
   return pairs;
 }

@@ -1,6 +1,11 @@
 import type { Problem } from "../../types/game";
 
-// Level 1-2: 基礎文法、変数、ループ、基本演算子
+/**
+ * Level 1-2: 基礎文法、変数、ループ、基本演算子
+ *
+ * 規約: pair[0] = モダン/簡潔な書き方（左に表示）
+ *       pair[1] = 従来/冗長な書き方（右に表示）
+ */
 export const basicProblems: Problem[] = [
   // Level 1 - 基礎文法
   {
@@ -55,16 +60,16 @@ export const basicProblems: Problem[] = [
     id: "and-operator",
     level: 1,
     pair: [
-      { text: "if (a && b) { }" },
-      { text: "if (a) { if (b) { } }" },
+      { text: "if (a && b) {\n  // ...\n}" },
+      { text: "if (a) {\n  if (b) { }\n}" },
     ],
   },
   {
     id: "not-operator",
     level: 1,
     pair: [
-      { text: "if (!a) { }" },
-      { text: "if (a === false) { }" },
+      { text: "if (!a) {\n  // ...\n}" },
+      { text: "if (a === false) {\n  // ...\n}" },
     ],
   },
   {
@@ -89,16 +94,16 @@ export const basicProblems: Problem[] = [
     id: "for-while",
     level: 2,
     pair: [
-      { text: "for (let i = 0; i < 5; i++) { }" },
-      { text: "let i = 0; while (i < 5) { i++; }" },
+      { text: "for (let i = 0; i < 5; i++) {\n  // ...\n}" },
+      { text: "let i = 0;\nwhile (i < 5) {\n  i++;\n}" },
     ],
   },
   {
     id: "for-of-index",
     level: 2,
     pair: [
-      { text: "for (let item of arr) { }" },
-      { text: "for (let i = 0; i < arr.length; i++) { let item = arr[i]; }" },
+      { text: "for (let item of arr) {\n  // ...\n}" },
+      { text: "for (let i = 0; i < arr.length; i++) {\n  let item = arr[i];\n}" },
     ],
   },
   {

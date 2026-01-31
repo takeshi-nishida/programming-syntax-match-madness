@@ -1,6 +1,11 @@
 import type { Problem } from "../../types/game";
 
-// Level 5: async/await, オプショナルチェーン, Null合体, Promise
+/**
+ * Level 5: async/await, オプショナルチェーン, Null合体, Promise
+ *
+ * 規約: pair[0] = モダン/簡潔な書き方（左に表示）
+ *       pair[1] = 従来/冗長な書き方（右に表示）
+ */
 export const asyncProblems: Problem[] = [
   // async/await
   {
@@ -15,8 +20,8 @@ export const asyncProblems: Problem[] = [
     id: "async-function",
     level: 5,
     pair: [
-      { text: "async function f() { }" },
-      { text: "function f() { return Promise.resolve(); }" },
+      { text: "async function f() {\n  // ...\n}" },
+      { text: "function f() {\n  return Promise.resolve();\n}" },
     ],
   },
   {
@@ -39,8 +44,8 @@ export const asyncProblems: Problem[] = [
     id: "try-catch-async",
     level: 5,
     pair: [
-      { text: "try { await f(); } catch (e) { }" },
-      { text: "f().catch(e => { });" },
+      { text: "try {\n  await f();\n} catch (e) { }" },
+      { text: "f().catch(e => {\n  // ...\n});" },
     ],
   },
 
@@ -110,7 +115,7 @@ export const asyncProblems: Problem[] = [
     level: 5,
     pair: [
       { text: "a ?? b" },
-      { text: "a !== null && a !== undefined ? a : b" },
+      { text: "a !== null &&\na !== undefined\n  ? a : b" },
     ],
   },
   {
@@ -126,7 +131,7 @@ export const asyncProblems: Problem[] = [
     level: 5,
     pair: [
       { text: "a ?? b" },
-      { text: "(a !== null && a !== void 0) ? a : b" },
+      { text: "(a !== null &&\n a !== void 0)\n  ? a : b" },
     ],
   },
 

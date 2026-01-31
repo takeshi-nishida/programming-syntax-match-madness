@@ -38,8 +38,8 @@ function App() {
         {screen === "playing" && selectedCourse && (
           <Game key={gameKey} course={selectedCourse} onGameEnd={handleGameEnd} />
         )}
-        {screen === "result" && gameResult && (
-          <ResultScreen result={gameResult} onRestart={handleRestart} />
+        {screen === "result" && gameResult && selectedCourse && (
+          <ResultScreen result={gameResult} course={selectedCourse} onRestart={handleRestart} />
         )}
       </div>
     </LocaleProvider>

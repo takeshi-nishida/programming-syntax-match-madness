@@ -1,6 +1,11 @@
 import type { Problem } from "../../types/game";
 
-// Level 2-3: forEach, map, filter, find, includes, Object操作
+/**
+ * Level 2-3: forEach, map, filter, find, includes, Object操作
+ *
+ * 規約: pair[0] = モダン/簡潔な書き方（左に表示）
+ *       pair[1] = 従来/冗長な書き方（右に表示）
+ */
 export const arrayProblems: Problem[] = [
   // Level 2 - 基本的な配列操作
   {
@@ -8,7 +13,7 @@ export const arrayProblems: Problem[] = [
     level: 2,
     pair: [
       { text: "arr.forEach(fn)" },
-      { text: "for (let item of arr) { fn(item); }" },
+      { text: "for (let item of arr) {\n  fn(item);\n}" },
     ],
   },
   {
@@ -134,7 +139,7 @@ export const arrayProblems: Problem[] = [
     level: 3,
     pair: [
       { text: "Object.keys(obj)" },
-      { text: "let k = []; for (let p in obj) k.push(p);" },
+      { text: "let k = [];\nfor (let p in obj)\n  k.push(p);" },
     ],
   },
   {

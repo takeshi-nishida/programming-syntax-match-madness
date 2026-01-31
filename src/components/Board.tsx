@@ -1,5 +1,6 @@
 import type { Slot } from "../types/game";
 import { SlotView } from "./SlotView";
+import { useIsDark } from "../hooks/useIsDark";
 
 interface BoardProps {
   slots: Slot[];
@@ -7,6 +8,8 @@ interface BoardProps {
 }
 
 export function Board({ slots, onSelect }: BoardProps) {
+  const isDark = useIsDark();
+
   // 左列と右列に分けて、row順にソート
   const leftSlots = slots
     .filter((s) => s.side === "left")
@@ -23,6 +26,7 @@ export function Board({ slots, onSelect }: BoardProps) {
             key={`${slot.side}-${slot.row}`}
             slot={slot}
             onSelect={onSelect}
+            isDark={isDark}
           />
         ))}
       </div>
@@ -32,6 +36,7 @@ export function Board({ slots, onSelect }: BoardProps) {
             key={`${slot.side}-${slot.row}`}
             slot={slot}
             onSelect={onSelect}
+            isDark={isDark}
           />
         ))}
       </div>

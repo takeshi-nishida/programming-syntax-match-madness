@@ -1,6 +1,11 @@
 import type { Problem } from "../../types/game";
 
-// Level 4: 分割代入、アロー関数、スプレッド、三項演算子、デフォルト引数
+/**
+ * Level 4: 分割代入、アロー関数、スプレッド、三項演算子、デフォルト引数
+ *
+ * 規約: pair[0] = モダン/簡潔な書き方（左に表示）
+ *       pair[1] = 従来/冗長な書き方（右に表示）
+ */
 export const modernProblems: Problem[] = [
   // 分割代入
   {
@@ -47,8 +52,8 @@ export const modernProblems: Problem[] = [
     id: "destructure-param",
     level: 4,
     pair: [
-      { text: "function f({ a, b }) { }" },
-      { text: "function f(obj) { const a = obj.a, b = obj.b; }" },
+      { text: "function f({ a, b }) {\n  // ...\n}" },
+      { text: "function f(obj) {\n  const a = obj.a;\n  const b = obj.b;\n}" },
     ],
   },
 
@@ -142,7 +147,7 @@ export const modernProblems: Problem[] = [
     level: 4,
     pair: [
       { text: "const r = a ? b : c;" },
-      { text: "let r; if (a) { r = b; } else { r = c; }" },
+      { text: "let r;\nif (a) { r = b; }\nelse { r = c; }" },
     ],
   },
 
@@ -151,16 +156,16 @@ export const modernProblems: Problem[] = [
     id: "default-param",
     level: 4,
     pair: [
-      { text: "function f(x = 0) { }" },
-      { text: "function f(x) { if (x === undefined) x = 0; }" },
+      { text: "function f(x = 0) {\n  // ...\n}" },
+      { text: "function f(x) {\n  if (x === undefined)\n    x = 0;\n}" },
     ],
   },
   {
     id: "default-param-or",
     level: 4,
     pair: [
-      { text: "function f(x = 0) { }" },
-      { text: "function f(x) { x = x ?? 0; }" },
+      { text: "function f(x = 0) {\n  // ...\n}" },
+      { text: "function f(x) {\n  x = x ?? 0;\n}" },
     ],
   },
 
@@ -170,7 +175,7 @@ export const modernProblems: Problem[] = [
     level: 4,
     pair: [
       { text: "a && fn()" },
-      { text: "if (a) { fn(); }" },
+      { text: "if (a) {\n  fn();\n}" },
     ],
   },
   {
@@ -188,7 +193,7 @@ export const modernProblems: Problem[] = [
     level: 4,
     pair: [
       { text: "{ [key]: value }" },
-      { text: "let o = {}; o[key] = value;" },
+      { text: "let o = {};\no[key] = value;" },
     ],
   },
 

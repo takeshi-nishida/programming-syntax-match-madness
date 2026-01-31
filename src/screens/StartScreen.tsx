@@ -1,4 +1,6 @@
 import { useLocale } from "../hooks/useLocale";
+import { useIsDark } from "../hooks/useIsDark";
+import { CodeHighlight } from "../components/CodeHighlight";
 import { COURSES } from "../data/courses";
 import type { Course } from "../types/game";
 
@@ -8,6 +10,7 @@ interface StartScreenProps {
 
 export function StartScreen({ onStart }: StartScreenProps) {
   const { t, toggleLocale } = useLocale();
+  const isDark = useIsDark();
 
   return (
     <div className="start-screen">
@@ -32,9 +35,13 @@ export function StartScreen({ onStart }: StartScreenProps) {
       <div className="start-screen__example">
         <h2>{t.example}</h2>
         <div className="start-screen__example-cards">
-          <code>const {"{ a, b }"} = obj;</code>
+          <div className="start-screen__example-code">
+            <CodeHighlight code="const { a, b } = obj;" isDark={isDark} />
+          </div>
           <span>{t.equals}</span>
-          <code>const a = obj.a, b = obj.b;</code>
+          <div className="start-screen__example-code">
+            <CodeHighlight code="const a = obj.a, b = obj.b;" isDark={isDark} />
+          </div>
         </div>
       </div>
 

@@ -1,7 +1,7 @@
 export const ja = {
   // StartScreen
   title: "Reflex",
-  subtitle: "プログラミング構文マッチングゲーム",
+  subtitle: "プログラミング構文無限カルタ",
   howToPlay: "遊び方",
   rule1: "左右のカードから同じ意味のペアを選ぼう",
   rule2: "左から1枚、右から1枚を選択",
@@ -29,11 +29,15 @@ export const ja = {
   clearTime: "クリアタイム",
   maxCombo: "最大コンボ",
   matches: "マッチ数",
+  showScoreCard: "スコアカード",
   shareResult: "𝕏 結果をシェア",
-  playAgain: "もう一度",
+  backToCourses: "コース選択に戻る",
+  scoreCardHint: "右クリックで保存・コピーできます",
+  close: "閉じる",
 
   // Share text
   shareTitle: "Reflex クリア！",
+  shareCourse: "コース",
   shareTime: "タイム",
   shareMaxCombo: "最大コンボ",
   sharePairsComplete: "ペア完全制覇！",
