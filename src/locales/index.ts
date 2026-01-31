@@ -2,9 +2,7 @@ import { ja } from "./ja";
 import { en } from "./en";
 
 export type Locale = "ja" | "en";
-export type Translations = {
-  [K in keyof typeof ja]: string;
-};
+export type Translations = typeof ja;
 
 export const translations: Record<Locale, Translations> = { ja, en };
 

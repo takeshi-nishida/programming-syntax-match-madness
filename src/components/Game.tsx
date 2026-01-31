@@ -1,5 +1,5 @@
 import { useReducer, useEffect, useState, useRef } from "react";
-import type { Slot, GameResult } from "../types/game";
+import type { Slot, GameResult, Course } from "../types/game";
 import { Board } from "./Board";
 import { gameReducer, initGameState } from "../hooks/useGameReducer";
 import { useMatchAnimation } from "../hooks/useMatchAnimation";
@@ -7,11 +7,12 @@ import { useSoundEffect } from "../hooks/useSoundEffect";
 import { useLocale } from "../hooks/useLocale";
 
 interface GameProps {
+  course: Course;
   onGameEnd: (result: GameResult) => void;
 }
 
-export function Game({ onGameEnd }: GameProps) {
-  const [state, dispatch] = useReducer(gameReducer, null, initGameState);
+export function Game({ course, onGameEnd }: GameProps) {
+  const [state, dispatch] = useReducer(gameReducer, course, initGameState);
   const { slots, combo, maxCombo, matchedPairs, matchQueue, gameEnded, startTime, totalPairs } = state;
   const [elapsedTime, setElapsedTime] = useState(0);
 

@@ -1,7 +1,7 @@
 export const ja = {
   // StartScreen
   title: "Reflex",
-  subtitle: "プログラミング構文無限カルタ",
+  subtitle: "プログラミング構文マッチングゲーム",
   howToPlay: "遊び方",
   rule1: "左右のカードから同じ意味のペアを選ぼう",
   rule2: "左から1枚、右から1枚を選択",
@@ -10,7 +10,16 @@ export const ja = {
   rule5: "全ペアをマッチさせたらクリア",
   example: "例",
   equals: "＝",
-  start: "スタート",
+  
+  // Course selection
+  selectCourse: "コースを選択",
+  courseLevels: "Lv.",
+  courseProblems: "問",
+  courses: {
+    basics: { name: "Basics", desc: "基礎文法・変数・ループ" },
+    standard: { name: "Standard", desc: "配列メソッド・モダン構文" },
+    advanced: { name: "Advanced", desc: "分割代入・非同期処理" },
+  },
 
   // Game
   combo: "combo",

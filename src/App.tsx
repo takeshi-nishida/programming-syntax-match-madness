@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { GameResult } from "./types/game";
+import type { GameResult, Course } from "./types/game";
 import { StartScreen } from "./screens/StartScreen";
 import { ResultScreen } from "./screens/ResultScreen";
 import { Game } from "./components/Game";
@@ -12,10 +12,12 @@ function App() {
   const [screen, setScreen] = useState<Screen>("start");
   const [gameResult, setGameResult] = useState<GameResult | null>(null);
   const [gameKey, setGameKey] = useState(0);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
-  const handleStart = () => {
+  const handleStart = (course: Course) => {
+    setSelectedCourse(course);
     setScreen("playing");
-    setGameKey((k) => k + 1); // ゲームをリセットするためのキー
+    setGameKey((k) => k + 1);
   };
 
   const handleGameEnd = (result: GameResult) => {
@@ -26,13 +28,16 @@ function App() {
   const handleRestart = () => {
     setScreen("start");
     setGameResult(null);
+    setSelectedCourse(null);
   };
 
   return (
     <LocaleProvider>
       <div className="app">
         {screen === "start" && <StartScreen onStart={handleStart} />}
-        {screen === "playing" && <Game key={gameKey} onGameEnd={handleGameEnd} />}
+        {screen === "playing" && selectedCourse && (
+          <Game key={gameKey} course={selectedCourse} onGameEnd={handleGameEnd} />
+        )}
         {screen === "result" && gameResult && (
           <ResultScreen result={gameResult} onRestart={handleRestart} />
         )}

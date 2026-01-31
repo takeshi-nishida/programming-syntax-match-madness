@@ -1,5 +1,5 @@
-import type { Slot, Side, CardPair, GameState, SlotPosition } from "../types/game";
-import { PROBLEMS } from "../data/problems";
+import type { Slot, Side, CardPair, GameState, SlotPosition, Course, Problem } from "../types/game";
+import { getProblemsByLevelRange, selectRandomProblems } from "../data/problems/index";
 import { shuffle } from "../utils/shuffle";
 
 // アクション定義
@@ -17,9 +17,11 @@ function getSelectedSlots(slots: Slot[]): Slot[] {
   return slots.filter(s => s.status === "selected" && s.card);
 }
 
-// 初期状態を生成する関数（useReducerの第3引数用）
-export function initGameState(): GameState {
-  const queue = createPairQueue();
+// 初期状態を生成する関数（コース指定対応）
+export function initGameState(course: Course): GameState {
+  const problems = getProblemsByLevelRange(course.levelRange[0], course.levelRange[1]);
+  const selectedProblems = selectRandomProblems(problems, course.problemCount);
+  const queue = createPairQueue(selectedProblems);
   const initialSlots = createInitialSlots();
   const pairsToUse = queue.slice(0, 5);
 
@@ -45,7 +47,7 @@ export function initGameState(): GameState {
     matchQueue: [],
     gameEnded: false,
     startTime: Date.now(),
-    totalPairs: PROBLEMS.length,
+    totalPairs: selectedProblems.length,
   };
 }
 
@@ -60,9 +62,9 @@ function createInitialSlots(): Slot[] {
 }
 
 // 問題からペアキューを生成（シャッフル済み）
-export function createPairQueue(): CardPair[] {
+export function createPairQueue(problems: Problem[]): CardPair[] {
   let instanceCounter = 0;
-  const shuffledProblems = shuffle(PROBLEMS);
+  const shuffledProblems = shuffle(problems);
 
   const pairs: CardPair[] = shuffledProblems.map((problem) => {
     const [leftData, rightData] =

@@ -1,7 +1,9 @@
 import { useLocale } from "../hooks/useLocale";
+import { COURSES } from "../data/courses";
+import type { Course } from "../types/game";
 
 interface StartScreenProps {
-  onStart: () => void;
+  onStart: (course: Course) => void;
 }
 
 export function StartScreen({ onStart }: StartScreenProps) {
@@ -36,9 +38,25 @@ export function StartScreen({ onStart }: StartScreenProps) {
         </div>
       </div>
 
-      <button className="start-screen__button" onClick={onStart}>
-        {t.start}
-      </button>
+      <h2 className="start-screen__course-title">{t.selectCourse}</h2>
+      <div className="start-screen__courses">
+        {COURSES.map((course) => {
+          const courseT = t.courses[course.id as keyof typeof t.courses];
+          return (
+            <button
+              key={course.id}
+              className="start-screen__course-card"
+              onClick={() => onStart(course)}
+            >
+              <span className="start-screen__course-name">{courseT.name}</span>
+              <span className="start-screen__course-desc">{courseT.desc}</span>
+              <span className="start-screen__course-meta">
+              {t.courseLevels}{course.levelRange[0]}-{course.levelRange[1]} / {course.problemCount}{t.courseProblems}
+            </span>
+          </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

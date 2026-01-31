@@ -64,5 +64,13 @@ export interface GameResult {
 // 問題定義（ペアの配列）
 export interface Problem {
   id: string;
+  level: number; // 1-5
   pair: [ProblemData, ProblemData];
+}
+
+// コース定義
+export interface Course {
+  id: string;
+  levelRange: [number, number]; // [min, max]
+  problemCount: number;
 }

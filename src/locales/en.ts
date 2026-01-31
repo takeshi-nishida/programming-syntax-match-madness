@@ -1,7 +1,7 @@
 export const en = {
   // StartScreen
   title: "Reflex",
-  subtitle: "Programming Syntax Match Madness",
+  subtitle: "Programming Syntax Matching Game",
   howToPlay: "How to Play",
   rule1: "Find pairs with the same meaning from left and right cards",
   rule2: "Select one card from each side",
@@ -10,7 +10,16 @@ export const en = {
   rule5: "Match all pairs to clear the game",
   example: "Example",
   equals: "=",
-  start: "Start",
+
+  // Course selection
+  selectCourse: "Select Course",
+  courseLevels: "Lv.",
+  courseProblems: "problems",
+  courses: {
+    basics: { name: "Basics", desc: "Variables, Loops, Operators" },
+    standard: { name: "Standard", desc: "Array Methods, Modern Syntax" },
+    advanced: { name: "Advanced", desc: "Destructuring, Async/Await" },
+  },
 
   // Game
   combo: "combo",
