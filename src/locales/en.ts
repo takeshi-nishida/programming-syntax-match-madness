@@ -29,10 +29,12 @@ export const en = {
   clearTime: "Clear Time",
   maxCombo: "Max Combo",
   matches: "Matches",
-  showScoreCard: "Score Card",
-  shareResult: "𝕏 Share Result",
+  shareResult: "Share Result",
   backToCourses: "Back to Courses",
-  scoreCardHint: "Right-click to save or copy",
+  scoreCardHint: "Click 'Copy image', then open X and paste the image into the composer.",
+  copySuccess: "Image copied — open X and paste (or use the button below).",
+  copyImage: "Copy image",
+  shareToX: "Share to X",
   close: "Close",
 
   // Share text

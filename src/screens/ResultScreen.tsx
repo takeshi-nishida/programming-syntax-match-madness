@@ -13,6 +13,7 @@ export function ResultScreen({ result, course, onRestart }: ResultScreenProps) {
   const { clearTimeMs, maxCombo, totalPairs } = result;
   const courseT = t.courses[course.id as keyof typeof t.courses];
   const [scoreCardUrl, setScoreCardUrl] = useState<string | null>(null);
+  const [copySuccess, setCopySuccess] = useState(false);
 
   const formatTime = (ms: number) => {
     const seconds = Math.floor(ms / 1000);
@@ -24,11 +25,11 @@ export function ResultScreen({ result, course, onRestart }: ResultScreenProps) {
       .padStart(2, "0")}`;
   };
 
-  // スコアカード画像を生成（VS Code風）
-  const generateScoreCard = useCallback(() => {
+  // スコアカード画像を生成（VS Code風） — 描画して Canvas を返す
+  const createScoreCanvas = useCallback(() => {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    if (!ctx) return null;
 
     const width = 1200;
     const height = 630;
@@ -191,22 +192,104 @@ export function ResultScreen({ result, course, onRestart }: ResultScreenProps) {
     ctx.textAlign = "right";
     ctx.fillText("JavaScript  UTF-8  Reflex", winX + winW - 15, statusY + 15);
 
-    setScoreCardUrl(canvas.toDataURL("image/png"));
+    return canvas;
   }, [clearTimeMs, maxCombo, totalPairs, courseT.name]);
 
-  const shareText = `${t.shareTitle}
+  // 既存のモーダル表示用（DataURL）を作る関数
+  const generateScoreCard = useCallback(() => {
+    const canvas = createScoreCanvas();
+    if (!canvas) return;
+    setScoreCardUrl(canvas.toDataURL("image/png"));
+  }, [createScoreCanvas]);
+
+  // Simple mobile detection helper (prefer userAgentData when available)
+  const shareTextBase = `${t.shareTitle}
 ${t.shareCourse}: ${courseT.name}
 ${t.shareTime}: ${formatTime(clearTimeMs)}
 ${t.shareMaxCombo}: ${maxCombo}
 ${totalPairs} ${t.sharePairsComplete}
 
-${t.shareUrl}
+${t.shareHashtags || ""}`.trim();
 
-${t.shareHashtags}`;
+  // Keep the share URL separate to avoid duplicating it inside `text` when
+  // calling the Web Share API (some platforms show `text` and `url` together).
+  const shareUrl = t.shareUrl || window.location.origin;
 
-  const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-    shareText
-  )}`;
+  const tweetText = `${shareTextBase}\n${shareUrl}`;
+  const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+
+  const isMobileDevice = useCallback(() => {
+    // @ts-ignore userAgentData may not exist
+    if ((navigator as any).userAgentData && typeof (navigator as any).userAgentData.mobile === "boolean") {
+      return (navigator as any).userAgentData.mobile;
+    }
+    if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) return true;
+    return /Mobi|Android|iPhone|iPad|iPod/.test(navigator.userAgent);
+  }, []);
+
+  // 共有用：モバイルかデスクトップで最適なフローを試す
+  const shareScoreCard = useCallback(() => {
+    const canvas = createScoreCanvas();
+    if (!canvas) return;
+
+    canvas.toBlob(async (blob) => {
+      if (!blob) {
+        setScoreCardUrl(canvas.toDataURL("image/png"));
+        return;
+      }
+
+      const file = new File([blob], "reflex-score.png", { type: "image/png" });
+      const mobile = isMobileDevice();
+
+      try {
+        // Mobile-first: Web Share with files. Provide `text` without the URL
+        // and omit `url` so consumers don't render the same link twice.
+        if (mobile && (navigator as any).canShare && (navigator as any).canShare({ files: [file] })) {
+          await (navigator as any).share({ files: [file], title: t.shareTitle, text: shareTextBase, url: shareUrl });
+          return;
+        }
+
+        // Mobile fallback: Web Share without files. Pass `url` separately
+        // (some platforms accept a `url` field) and keep `text` URL-free.
+        if (mobile && navigator.share) {
+          await navigator.share({ title: t.shareTitle, text: shareTextBase, url: shareUrl });
+          return;
+        }
+
+        // Desktop: try Clipboard image write (best UX for desktop)
+        if ((navigator as any).clipboard && (window as any).ClipboardItem) {
+          try {
+            await (navigator as any).clipboard.write([new (window as any).ClipboardItem({ ["image/png"]: blob })]);
+            // open tweet composer so user can paste the image
+            window.open(tweetUrl, "_blank", "noopener");
+            return;
+          } catch (err) {
+            console.warn("clipboard image write failed", err);
+          }
+        }
+
+        // Final fallback: download image, copy text, open intent
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "reflex-score.png";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(`${shareTextBase}\n${shareUrl}`);
+        }
+        window.open(tweetUrl, "_blank", "noopener");
+      } catch (err) {
+        console.error("share failed", err);
+        setScoreCardUrl(canvas.toDataURL("image/png"));
+      }
+    }, "image/png");
+  }, [createScoreCanvas, isMobileDevice, shareTextBase, shareUrl, tweetUrl, t.shareTitle]);
+
+  
 
   return (
     <div className="result-screen">
@@ -215,9 +298,7 @@ ${t.shareHashtags}`;
       <div className="result-screen__stats">
         <div className="result-screen__stat">
           <span className="result-screen__stat-label">{t.clearTime}</span>
-          <span className="result-screen__stat-value">
-            {formatTime(clearTimeMs)}
-          </span>
+          <span className="result-screen__stat-value">{formatTime(clearTimeMs)}</span>
         </div>
 
         <div className="result-screen__stat">
@@ -227,46 +308,69 @@ ${t.shareHashtags}`;
 
         <div className="result-screen__stat">
           <span className="result-screen__stat-label">{t.matches}</span>
-          <span className="result-screen__stat-value">
-            {totalPairs} / {totalPairs}
-          </span>
+          <span className="result-screen__stat-value">{totalPairs} / {totalPairs}</span>
         </div>
       </div>
 
       <div className="result-screen__actions">
-        <button
-          className="result-screen__scorecard-button"
-          onClick={generateScoreCard}
-        >
-          {t.showScoreCard}
-        </button>
-
-        <a
-          href={tweetUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="result-screen__share-button"
-        >
-          {t.shareResult}
-        </a>
-
-        <button className="result-screen__restart-button" onClick={onRestart}>
-          {t.backToCourses}
-        </button>
+        {isMobileDevice() ? (
+          <>
+            <button className="result-screen__scorecard-button" onClick={shareScoreCard}>{t.shareResult}</button>
+            <button className="result-screen__restart-button" onClick={onRestart}>{t.backToCourses}</button>
+          </>
+        ) : (
+          <>
+            <button className="result-screen__scorecard-button" onClick={generateScoreCard}>{t.shareResult}</button>
+            <button className="result-screen__restart-button" onClick={onRestart}>{t.backToCourses}</button>
+          </>
+        )}
       </div>
 
-      {/* スコアカードモーダル */}
       {scoreCardUrl && (
         <div className="scorecard-modal" onClick={() => setScoreCardUrl(null)}>
           <div className="scorecard-modal__content" onClick={(e) => e.stopPropagation()}>
             <img src={scoreCardUrl} alt="Score Card" className="scorecard-modal__image" />
             <p className="scorecard-modal__hint">{t.scoreCardHint}</p>
-            <button
-              className="scorecard-modal__close"
-              onClick={() => setScoreCardUrl(null)}
-            >
-              {t.close}
-            </button>
+            <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
+              <button
+                className="scorecard-modal__copy"
+                onClick={async () => {
+                  if (!scoreCardUrl) return;
+                  if (!(navigator as any).clipboard || !(window as any).ClipboardItem) {
+                    alert("Clipboard image write is not supported in this browser.");
+                    return;
+                  }
+                  try {
+                    const res = await fetch(scoreCardUrl);
+                    const blob = await res.blob();
+                    await (navigator as any).clipboard.write([new (window as any).ClipboardItem({ ["image/png"]: blob })]);
+                    setCopySuccess(true);
+                    // clear toast after a few seconds
+                    setTimeout(() => setCopySuccess(false), 4000);
+                  } catch (err) {
+                    console.error(err);
+                    alert("Failed to copy image to clipboard.");
+                  }
+                }}
+              >
+                {t.copyImage || 'Copy image'}
+              </button>
+
+              <button
+                className="scorecard-modal__share-x"
+                onClick={() => window.open(tweetUrl, '_blank', 'noopener')}
+              >
+                {t.shareToX || 'Share to X'}
+              </button>
+
+              <button className="scorecard-modal__close" onClick={() => setScoreCardUrl(null)}>{t.close}</button>
+            </div>
+            {copySuccess && (
+              <div className="scorecard-toast" role="status" aria-live="polite">
+                <span>{t.copySuccess}</span>
+                <button className="scorecard-toast__open" onClick={() => window.open(tweetUrl, '_blank', 'noopener')}>{t.shareToX || 'Open X'}</button>
+              </div>
+            )}
           </div>
         </div>
       )}

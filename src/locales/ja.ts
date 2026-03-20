@@ -29,10 +29,12 @@ export const ja = {
   clearTime: "クリアタイム",
   maxCombo: "最大コンボ",
   matches: "マッチ数",
-  showScoreCard: "スコアカード",
-  shareResult: "𝕏 結果をシェア",
+  shareResult: "結果をシェア",
   backToCourses: "コース選択に戻る",
-  scoreCardHint: "右クリックで保存・コピーできます",
+  scoreCardHint: "「画像をコピー」を押してから、Xで貼り付けてください（下のボタンからXを開けます）。",
+  copySuccess: "画像をコピーしました。Xを開いて貼り付けてください（下のボタンでも開けます）。",
+  copyImage: "画像をコピー",
+  shareToX: "X にシェア",
   close: "閉じる",
 
   // Share text
