@@ -155,7 +155,7 @@ export function ResultScreen({ result, course, onRestart }: ResultScreenProps) {
       { num: 5, tokens: [{ text: "};", color: "#cccccc" }] },
       { num: 6, tokens: [] },
       { num: 7, tokens: [{ text: "// Syntax Match Example:", color: "#6a9955" }] },
-      { num: 8, tokens: [{ text: "const ", color: "#569cd6" }, { text: "{ ", color: "#cccccc" }, { text: "a", color: "#9cdcfe" }, { text: ", ", color: "#cccccc" }, { text: "b", color: "#9cdcfe" }, { text: " } = ", color: "#cccccc" }, { text: "obj", color: "#4fc1ff" }, { text: ";  ", color: "#cccccc" }, { text: "// ↔ ", color: "#6a9955" }, { text: "const ", color: "#569cd6" }, { text: "a", color: "#4fc1ff" }, { text: "=", color: "#cccccc" }, { text: "obj", color: "#4fc1ff" }, { text: ".", color: "#cccccc" }, { text: "a", color: "#9cdcfe" }, { text: ";", color: "#cccccc" }] },
+      { num: 8, tokens: [{ text: "const ", color: "#569cd6" }, { text: "{ ", color: "#cccccc" }, { text: "a", color: "#9cdcfe" }, { text: ", ", color: "#cccccc" }, { text: "b", color: "#9cdcfe" }, { text: " } = ", color: "#cccccc" }, { text: "obj", color: "#4fc1ff" }, { text: "; ", color: "#cccccc" }, { text: " ↔ ", color: "#6a9955" }, { text: "const ", color: "#569cd6" }, { text: "a", color: "#9cdcfe" }, { text: " = ", color: "#cccccc" }, { text: "obj", color: "#4fc1ff" }, { text: ".", color: "#cccccc" }, { text: "a", color: "#9cdcfe" }, { text: "; ", color: "#cccccc" }, { text: "const ", color: "#569cd6" }, { text: "b", color: "#9cdcfe" }, { text: " = ", color: "#cccccc" }, { text: "obj", color: "#4fc1ff" }, { text: ".", color: "#cccccc" }, { text: "b", color: "#9cdcfe" }, { text: ";", color: "#cccccc" }] },
     ];
 
     ctx.font = "26px monospace";
