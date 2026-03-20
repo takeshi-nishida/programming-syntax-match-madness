@@ -277,10 +277,10 @@
     font-size: 0.7rem;
   }
 
-  /* Improve code wrapping on very small screens */
+  /* Improve code wrapping on very small screens without splitting words */
   .code-highlight span {
-    /* allow breaking inside long tokens like for(...) */
-    word-break: break-all;
+    word-break: normal;
+    overflow-wrap: anywhere;
   }
 
   /* Slightly reduce slot card padding to give code more horizontal room */
@@ -298,7 +298,8 @@
     font-size: 0.7rem;
   }
   .code-highlight span {
-    word-break: break-all;
+    word-break: normal;
+    overflow-wrap: anywhere;
   }
   .slot__card {
     padding: 0.5rem;
@@ -481,7 +482,7 @@
   max-width: 100%;
   overflow: hidden;
   overflow-wrap: anywhere;
-  word-break: break-word;
+  word-break: normal;
   /* limit visual height so very long code doesn't push layout */
   max-height: 6.5rem;
 }
@@ -497,14 +498,15 @@
 .code-highlight {
   display: block;
   overflow: hidden;
-  word-break: break-word;
+  word-break: normal;
   overflow-wrap: anywhere;
 }
 
 .code-highlight > div,
 .code-highlight span {
   white-space: pre-wrap;
-  word-break: break-word;
+  word-break: normal;
+  overflow-wrap: anywhere;
 }
 
 /* On small screens, reduce line count and font size slightly */

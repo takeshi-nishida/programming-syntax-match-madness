@@ -160,14 +160,14 @@ export const modernProblems: Problem[] = [
       { text: "function f(x) {\n  if (x === undefined)\n    x = 0;\n}" },
     ],
   },
-  {
-    id: "default-param-or",
-    level: 4,
-    pair: [
-      { text: "function f(x = 0) {\n  // ...\n}" },
-      { text: "function f(x) {\n  x = x ?? 0;\n}" },
-    ],
-  },
+  // {
+  //   id: "default-param-or",
+  //   level: 4,
+  //   pair: [
+  //     { text: "function f(x = 0) {\n  // ...\n}" },
+  //     { text: "function f(x) {\n  x = x ?? 0;\n}" },
+  //   ],
+  // },
 
   // 短絡評価
   {
