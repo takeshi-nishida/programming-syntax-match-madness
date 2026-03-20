@@ -50,14 +50,14 @@ export const asyncProblems: Problem[] = [
   },
 
   // Promise
-  {
-    id: "promise-all",
-    level: 5,
-    pair: [
-      { text: "await Promise.all([p1, p2])" },
-      { text: "const r1 = await p1; const r2 = await p2;" },
-    ],
-  },
+  // {
+  //   id: "promise-all",
+  //   level: 5,
+  //   pair: [
+  //     { text: "await Promise.all([p1, p2])" },
+  //     { text: "const r1 = await p1; const r2 = await p2;" },
+  //   ],
+  // },
   {
     id: "promise-resolve",
     level: 5,
@@ -74,14 +74,14 @@ export const asyncProblems: Problem[] = [
       { text: "new Promise((_, r) => r(e))" },
     ],
   },
-  {
-    id: "promise-finally",
-    level: 5,
-    pair: [
-      { text: "p.finally(fn)" },
-      { text: "p.then(fn, fn)" },
-    ],
-  },
+  // {
+  //   id: "promise-finally",
+  //   level: 5,
+  //   pair: [
+  //     { text: "p.finally(fn)" },
+  //     { text: "p.then(fn, fn)" },
+  //   ],
+  // },
 
   // オプショナルチェーン
   {
@@ -160,12 +160,12 @@ export const asyncProblems: Problem[] = [
       { text: "arr[arr.length - 1]" },
     ],
   },
-  {
-    id: "structuredclone",
-    level: 5,
-    pair: [
-      { text: "structuredClone(obj)" },
-      { text: "JSON.parse(JSON.stringify(obj))" },
-    ],
-  },
+  // {
+  //   id: "structuredclone",
+  //   level: 5,
+  //   pair: [
+  //     { text: "structuredClone(obj)" },
+  //     { text: "JSON.parse(JSON.stringify(obj))" },
+  //   ],
+  // },
 ];

@@ -3,7 +3,7 @@ export const en = {
   title: "Reflex",
   subtitle: "Programming Syntax Match Madness",
   howToPlay: "How to Play",
-  rule1: "Match same-meaning pairs",
+  rule1: "Match pairs with roughly the same meaning",
   rule2: "Pick one from each side",
   rule3: "Correct matches remove cards and add new ones",
   rule4: "Keep your streak going to build combos!",

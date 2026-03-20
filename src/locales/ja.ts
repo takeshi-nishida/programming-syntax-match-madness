@@ -3,7 +3,7 @@ export const ja = {
   title: "Reflex",
   subtitle: "プログラミング構文無限カルタ",
   howToPlay: "遊び方",
-  rule1: "同じ意味のペアを選ぶ",
+  rule1: "だいたい同じ意味のペアを選ぶ",
   rule2: "左右から1枚ずつ選ぶ",
   rule3: "正解するとカードが消えて新しいカードが補充される",
   rule4: "連続正解でコンボが増える！",

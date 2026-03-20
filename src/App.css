@@ -276,6 +276,33 @@
   .start-screen__course-meta {
     font-size: 0.7rem;
   }
+
+  /* Improve code wrapping on very small screens */
+  .code-highlight span {
+    /* allow breaking inside long tokens like for(...) */
+    word-break: break-all;
+  }
+
+  /* Slightly reduce slot card padding to give code more horizontal room */
+  .slot__card {
+    padding: 0.6rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .slot__text {
+    font-size: 0.7rem;
+    max-height: 4.5rem;
+  }
+  .code-highlight {
+    font-size: 0.7rem;
+  }
+  .code-highlight span {
+    word-break: break-all;
+  }
+  .slot__card {
+    padding: 0.5rem;
+  }
 }
 
 .start-screen__course-desc {
@@ -453,6 +480,10 @@
   color: var(--text-code);
   max-width: 100%;
   overflow: hidden;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  /* limit visual height so very long code doesn't push layout */
+  max-height: 6.5rem;
 }
 
 /* Syntax highlight overrides */
@@ -462,8 +493,29 @@
   line-height: inherit;
 }
 
-.code-highlight .token-line {
+/* Ensure rendered lines wrap and don't cause horizontal overflow */
+.code-highlight {
+  display: block;
+  overflow: hidden;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.code-highlight > div,
+.code-highlight span {
   white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* On small screens, reduce line count and font size slightly */
+@media (max-width: 420px) {
+  .slot__text {
+    font-size: 0.75rem;
+    max-height: 5rem;
+  }
+  .code-highlight {
+    font-size: 0.75rem;
+  }
 }
 
 /* ============================================

@@ -40,14 +40,14 @@ export const arrayProblems: Problem[] = [
       { text: "arr.reduce((a, b) => a + ', ' + b)" },
     ],
   },
-  {
-    id: "array-reverse",
-    level: 2,
-    pair: [
-      { text: "arr.reverse()" },
-      { text: "[...arr].sort(() => -1)" },
-    ],
-  },
+  // {
+  //   id: "array-reverse",
+  //   level: 2,
+  //   pair: [
+  //     { text: "arr.reverse()" },
+  //     { text: "[...arr].sort(() => -1)" },
+  //   ],
+  // },
 
   // Level 3 - 配列メソッド
   {
@@ -134,14 +134,14 @@ export const arrayProblems: Problem[] = [
   },
 
   // Level 3 - Object操作
-  {
-    id: "object-keys",
-    level: 3,
-    pair: [
-      { text: "Object.keys(obj)" },
-      { text: "let k = [];\nfor (let p in obj)\n  k.push(p);" },
-    ],
-  },
+  // {
+  //   id: "object-keys",
+  //   level: 3,
+  //   pair: [
+  //     { text: "Object.keys(obj)" },
+  //     { text: "let k = [];\nfor (let p in obj)\n  k.push(p);" },
+  //   ],
+  // },
   {
     id: "object-values",
     level: 3,

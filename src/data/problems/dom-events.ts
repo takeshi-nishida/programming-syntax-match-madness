@@ -39,14 +39,14 @@ export const domProblems: Problem[] = [
       { text: "el.innerText = str" },
     ],
   },
-  {
-    id: "create-element",
-    level: 2,
-    pair: [
-      { text: 'document.createElement("div")' },
-      { text: "new HTMLDivElement()" },
-    ],
-  },
+  // {
+  //   id: "create-element",
+  //   level: 2,
+  //   pair: [
+  //     { text: 'document.createElement("div")' },
+  //     { text: "new HTMLDivElement()" },
+  //   ],
+  // },
   {
     id: "classlist-add",
     level: 2,
